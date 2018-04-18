@@ -1,14 +1,15 @@
-# Import package
+# Import packages
 import paho.mqtt.client as mqtt
 import ssl
 
 # Define Variables
 MQTT_PORT = 8883
-MQTT_KEEPALIVE_INTERVAL = 45
+MQTT_KEEPALIVE_INTERVAL = 30
 MQTT_TOPIC1 = "rasphat/sensors"
 MQTT_TOPIC2 = "rasphat/joystick"
 MQTT_TOPIC3 = "rasphat/magnetometer"
 
+# Cloud Configuration (Host, Certification file, Private Key)
 MQTT_HOST = "aoscy1wztqxzf.iot.ap-southeast-1.amazonaws.com"
 CA_ROOT_CERT_FILE = "./root-CA.crt"
 THING_CERT_FILE = "./MyCertificate.pem.crt"
@@ -25,13 +26,16 @@ def on_connect(mosq, obj, flags, rc):
 # This function will be invoked every time,
 # a new message arrives for the subscribed topic 
 def on_message(mosq, obj, msg):
+    print("=========================================================================")
 	print("Topic: " + str(msg.topic))
 	print("QoS: " + str(msg.qos))
 	print("Payload: " + str(msg.payload))
+    print("=========================================================================")
 
 def on_subscribe(mosq, obj, mid, granted_qos):
-    print("Subscribed to Topic: " + 
-	MQTT_TOPIC1 + "," + MQTT_TOPIC2 + "," + MQTT_TOPIC2 + "," + " with QoS: " + str(granted_qos))
+    print("Subscribed Topics : " + 
+	MQTT_TOPIC1 + "," + MQTT_TOPIC2 + "," + MQTT_TOPIC3 + "," + " with QoS: " + str(granted_qos))
+    print("=========================================================================")
 
 # Initiate MQTT Client
 mqttc = mqtt.Client()
